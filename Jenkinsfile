@@ -9,13 +9,14 @@ pipeline {
                     dir ('bugtracker-backend') { 
                         
                         // Use the Docker sidecar pattern. 
-                        // We use the 'inside' command to ensure we are running within a clean Go environment.
-                        // We do NOT specify a user, letting the sidecar handle its own process, 
-                        // but we rely on the previously fixed socket mount (-v /var/run/docker.sock) 
-                        // and the successful installation of the Docker Pipeline plugin.
-                        
-                        docker.image('golang:1.20').inside {
-                            echo "Running Go tests inside golang:1.20 container..."
+                        // CRITICAL FIX: The 'user: "0"' argument forces the Docker commands 
+                        // to be run as the root user (UID 0) inside the Jenkins agent, 
+                        // bypassing the persistent permission denied error on the socket.
+                        docker.image('golang:1.20').inside(
+                            // Adding the 'user' parameter here
+                            options: '-u 0'
+                        ) {
+                            echo "Running Go tests inside golang:1.20 container as root..."
                             
                             // 1. Download dependencies
                             sh 'go mod tidy' 
