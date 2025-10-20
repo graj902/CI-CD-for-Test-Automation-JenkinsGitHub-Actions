@@ -1,4 +1,4 @@
-# pipeline for the Backend bugtracker project
+//Jenkinsfile pipeline for the Backend bugtracker project
 
 pipeline {
     agent any
