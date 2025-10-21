@@ -7,6 +7,7 @@ pipeline {
                 dir('backend') {
                     sh 'go test -v ./...'
                 }
+            }
         }
     }
 }
