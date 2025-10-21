@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"bugtracker-backend/internal/handlers"
-	"bugtracker-backend/internal/testutilxxx"
+	"bugtracker-backend/internal/testutil"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
