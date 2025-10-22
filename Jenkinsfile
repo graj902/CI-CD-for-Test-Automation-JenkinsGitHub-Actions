@@ -40,7 +40,9 @@ pipeline {
                             mkdir -p reports
 
                             rm -rf coverage
-                            mv coverage reports/
+                            if [ -d coverage ]; then
+                                mv coverage reports/
+                            fi
                             '''
                         }
                     }
