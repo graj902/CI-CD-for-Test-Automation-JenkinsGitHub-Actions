@@ -4,13 +4,16 @@ pipeline {
         stage ("unit-test backend") {
             steps {
                 dir('bugtracker-backend') {
-                    // FIXED: Corrected the shell redirection syntax to generate XML report
-                    sh "go test -v ./... 2>&1 | go-junit-report > test-results.xml"
+                    // FIX: Use triple quotes to update the PATH environment variable
+                    // This allows the shell to find the 'go-junit-report' executable.
+                    sh '''
+                        export PATH=$PATH:$HOME/go/bin
+                        go test -v ./... 2>&1 | go-junit-report > test-results.xml
+                    '''
                 }
             }
             post {
                 always {
-                    // This now looks for the report file generated in the steps block
                     junit 'bugtracker-backend/test-results.xml' 
                 }
             }
