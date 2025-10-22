@@ -15,7 +15,7 @@ pipeline {
                 }
             }
         } 
-        stages ("unit test for frontend") {
+        stage ("unit test for frontend") {
             steps {
                 dir('bugtracker-frontend') {
                     // Install dependencies
@@ -25,7 +25,6 @@ pipeline {
                     sh 'npm test'
                 }
             }
-
         }
     } 
 }
