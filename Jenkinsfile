@@ -4,16 +4,14 @@ pipeline {
         stage ("unit-test backend") {
             steps {
                 dir('bugtracker-backend') {
-                    // FIX: Use triple quotes to update the PATH environment variable
-                    // This allows the shell to find the 'go-junit-report' executable.
-                    sh '''
-                        export PATH=$PATH:$HOME/go/bin
-                        go test -v ./... 2>&1 | go-junit-report > test-results.xml
-                    '''
+                    // FINAL FIX: We are now using the full, absolute path where 'go install'
+                    // placed the binary for the 'ubuntu' user, bypassing all Jenkins PATH confusion.
+                    sh "go test -v ./... 2>&1 | /home/ubuntu/go/bin/go-junit-report > test-results.xml"
                 }
             }
             post {
                 always {
+                    // This now points to the file generated in the dir('bugtracker-backend')
                     junit 'bugtracker-backend/test-results.xml' 
                 }
             }
