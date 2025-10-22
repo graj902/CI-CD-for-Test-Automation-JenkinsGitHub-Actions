@@ -14,6 +14,18 @@ pipeline {
                     sh 'go test -v ./...'
                 }
             }
+        } 
+        stages ("unit test for frontend") {
+            steps {
+                dir('bugtracker-frontend') {
+                    // Install dependencies
+                    sh 'npm install'
+                    
+                    // Run tests
+                    sh 'npm test'
+                }
+            }
+
         }
     } 
 }
