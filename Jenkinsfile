@@ -14,17 +14,17 @@ pipeline {
                 }
             }
         }
-    post 
-    {
-        always {
-            junit 'bugtracker-frontend/**/TEST-*.xml'
-        }
-        success {
-            echo "Unit tests-backend stage finished successfully."
-        }
-        failure {
-            echo "Unit tests-backend stage finished with errors."
+        post {
+            always {
+                junit 'bugtracker-frontend/**/TEST-*.xml'
+            }
+            success {
+                echo "Unit tests-backend stage finished successfully."
+            }
+            failure {
+                echo "Unit tests-backend stage finished with errors."
+            }
         }
     }
- }
+}
 
