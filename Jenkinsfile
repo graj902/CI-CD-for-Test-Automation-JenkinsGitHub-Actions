@@ -6,20 +6,25 @@ pipeline {
                 // CRITICAL FIX: The module root (where go.mod lives) is bugtracker-backend.
                 dir('bugtracker-backend') {
                     
-                    // 1. Resolve dependencies (now runs correctly inside bugtracker-backend)
+                    echo "Running go mod tidy..."
                     sh 'go mod tidy'
                     
-                    // 2. Run tests on all packages in the current directory (bugtracker-backend) 
-                    // and its subdirectories (like ./cmd or ./internal).
+                    echo "Running go test..."
                     sh 'go test -v ./...'
                 }
             }
         }
-    post {
+    post 
+    {
         always {
             junit 'bugtracker-frontend/**/TEST-*.xml'
         }
-     }
-
+        success {
+            echo "Unit tests-backend stage finished successfully."
+        }
+        failure {
+            echo "Unit tests-backend stage finished with errors."
+        }
     }
- } 
+ }
+
