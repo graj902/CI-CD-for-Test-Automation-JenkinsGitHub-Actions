@@ -4,7 +4,12 @@ pipeline {
         stage ("unit-test backend") {
             steps {
                 dir('bugtracker-backend') { // Fixed: added quotes
-                    sh "go test -v ./..."
+                    sh "go test -v ./... 2 > &! | go-junit-report > test-results.xml"
+                }
+            }
+            post {
+                always {
+                    junit 'bugtracker-backend/test-results.xml'
                 }
             }
         }
