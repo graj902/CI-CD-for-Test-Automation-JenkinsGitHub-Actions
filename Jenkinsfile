@@ -34,7 +34,7 @@ pipeline {
                 dir('bugtracker-frontend') {
                     sh ''' 
                     npm install
-                    sh npm test
+                    npm test
                     mkdir -p reports
                     mv coverage reports/
                     '''
