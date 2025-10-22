@@ -32,13 +32,25 @@ pipeline {
         stage ("unit-test frontend") {
             steps {
                 dir('bugtracker-frontend') {
-                    sh "npm install"
-                    sh "npm test"
+                    sh ''' 
+                    npm install
+                    sh npm test
+                    mkdir -p reports
+                    mv coverage reports/
+                    '''
                 }
             }
             post {
                 always {
                     junit 'bugtracker-frontend/test-results.xml'
+                    publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'bugtracker-frontend/reports/coverage',
+                        reportFiles: 'index.html',
+                        reportName: 'Frontend Code Coverage Report'
+                    ])
                 }
             }
         }       
