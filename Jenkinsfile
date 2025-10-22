@@ -44,14 +44,9 @@ pipeline {
                     // This publishes your Jest JUnit XML reports
                     junit testResults: env.FRONTEND_TEST_REPORT, skipOldReports: true
                 }
-                success {
-                    // This publishes your LCOV coverage report
-                    recordCoverage adapters: [lcovAdapter(path: env.FRONTEND_COVERAGE_REPORT)]
-                }
+                
             }
         }
         
-        // No post section needed here yet
-        // stage('Build and Push') { ... } 
+         } 
     }
-}
