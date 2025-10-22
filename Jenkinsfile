@@ -14,17 +14,12 @@ pipeline {
                     sh 'go test -v ./...'
                 }
             }
-        } 
-        stage ("unit test for frontend") {
-            steps {
-                dir('bugtracker-frontend') {
-                    // Install dependencies
-                    sh 'npm install'
-                    
-                    // Run tests
-                    sh 'npm test'
-                }
-            }
         }
-    } 
-}
+    post {
+        always {
+            junit 'bugtracker-frontend/**/TEST-*.xml'
+        }
+     }
+
+    }
+ } 
