@@ -14,8 +14,8 @@ pipeline {
                 }
             }
         }
-    post {
-            always {
+            post {
+              always {
                 junit 'bugtracker-frontend/**/TEST-*.xml'
             }
             success {
