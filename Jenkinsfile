@@ -5,12 +5,27 @@ pipeline {
             steps {
                 dir('bugtracker-backend') {
                     // This path is correct; we just needed directory permissions.
-                    sh "go test -v ./... 2>&1 | /home/ubuntu/go/bin/go-junit-report > test-results.xml"
+                    sh '''
+                     go test -v ./... 2>&1 | /home/ubuntu/go/bin/go-junit-report > test-results.xml 
+                     # generate coverage report
+                     go test -coverprofile=coverage.out -covermode=atomic ./...
+                     go tool cover -html=coverage.out -o coverage.html
+                     mkdir -p reports
+                     mv coverage.html reports/
+                     '''
                 }
             }
             post {
                 always {
                     junit 'bugtracker-backend/test-results.xml' 
+                    publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'bugtracker-backend/reports',
+                        reportFiles: 'coverage.html',
+                        reportName: 'Code Coverage Report'
+                    ])
                 }
             }
         }
