@@ -38,6 +38,8 @@ pipeline {
                             npm install
                             npm test
                             mkdir -p reports
+
+                            rm -rf coverage
                             mv coverage reports/
                             '''
                         }
